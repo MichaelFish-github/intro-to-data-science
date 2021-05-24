@@ -1,4 +1,5 @@
 import pandas
+from sample import Sample
 
 
 class Data:
@@ -11,4 +12,13 @@ class Data:
         self.data = df.to_dict(orient="list")
 
     def create_samples(self):
-        pass
+        samples = []
+        not_genes = ["samples", "type"]
+        item_num = len(self.data["samples"])
+        for i in range(item_num):
+            s_id = self.data["samples"][i]
+            label = self.data["type"][i]
+            genes = [self.data[k][i] for k in self.data if k not in not_genes]
+            samples.append(Sample(s_id, genes, label))
+        return samples
+
