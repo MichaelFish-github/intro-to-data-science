@@ -1,5 +1,3 @@
-
-
 class Cluster:
     def __init__(self, c_id, samples):
         self.c_id = c_id
@@ -8,26 +6,19 @@ class Cluster:
     def merge(self, other):
         for sample in other.samples:
             self.samples.append(sample)
-        self.samples.sort(key=lambda x: x.s_id)
+
         del other
 
-    def print_details(self, silhouette):
-        pass
-
     def compute_dominant_label(self):
-        list_of_labels = []
-        for sample in self.samples:
-            if sample not in list_of_labels:
-                list_of_labels.append(sample)
-        labels_histogram = []
+        label_list = [s.label for s in self.samples]
+        return max(label_list, key=label_list.count)
 
+    def print_details(self, silhouette):
+        self.samples.sort(key=lambda x: x.s_id)
+        id_list = [sample.label for sample in self.samples]
+        print(f'The IDs in this cluster are: {id_list}')
+        print(f'The dominant label of this cluster is: {self.compute_dominant_label()}')
+        print(f'The silhouette of the cluster is: {silhouette}')
 
-    # def compute_in(self, sample):
-    #     cluster_size = len(self.samples)
-    #     sum_of_distances = 0
-    #     for other_sample in self.samples:
-    #         if sample is not other_sample:
-    #             sum_of_distances = sum_of_distances + sample.compute_euclidean_distance(other_sample)
-    #     return sum_of_distances / (cluster_size - 1)
 
 
