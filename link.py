@@ -1,4 +1,6 @@
 import abc
+from agglomerative_clustering import AgglomerativeClustering
+import sys
 
 
 class Link:
@@ -8,20 +10,30 @@ class Link:
 
 
 class SingleLink(Link):
+    def __init__(self):
+        pass
+
     def compute(self, cluster, other):
-        min_d = cluster.samples[0].compute_euclidean_distance(other.samples[0])
+        distances = AgglomerativeClustering.distances
+        min_d = distances[(cluster.samples[0].s_id, other.samples[0].s_id)]
         for s_cluster in cluster.samples:
             for s_other in other.samples:
-                if s_cluster.compute_euclidean_distance(s_other) < min_d:
-                    min_d = s_cluster.compute_euclidean_distance(s_other)
+                current_distance = distances[(s_cluster.s_id, s_other.s_id)]
+                if current_distance < min_d:
+                    min_d = current_distance
         return min_d
 
 
 class CompleteLink(Link):
+    def __init__(self):
+        pass
+
     def compute(self, cluster, other):
-        max_d = cluster.samples[0].compute_euclidean_distance(other.samples[0])
+        distances = AgglomerativeClustering.distances
+        max_d = distances[(cluster.samples[0].s_id, other.samples[0].s_id)]
         for s_cluster in cluster.samples:
             for s_other in other.samples:
-                if s_cluster.compute_euclidean_distance(s_other) > max_d:
-                    max_d = s_cluster.compute_euclidean_distance(s_other)
+                current_distance = distances[(s_cluster.s_id, s_other.s_id)]
+                if current_distance > max_d:
+                    max_d = current_distance
         return max_d

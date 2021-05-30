@@ -10,5 +10,4 @@ class Sample:
         distance_list = []
         for i in range(len(self.genes)):
             distance_list.append((self.genes[i] - other.genes[i]) ** 2)
-            return sum(distance_list) ** 0.5
-        pass
+        return sum(distance_list) ** 0.5
