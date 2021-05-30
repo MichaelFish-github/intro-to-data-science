@@ -17,7 +17,7 @@ class Cluster:
         self.samples.sort(key=lambda x: x.s_id)
         id_list = [sample.s_id for sample in self.samples]
         label = self.compute_dominant_label()
-        print("Cluster {:.3f}: {id}, dominant label = {dominant}, silhouette = {sil:.3f}".format(self.c_id,
-                                                                                                 id=id_list,
-                                                                                                 dominant=label,
-                                                                                                 sil=silhouette))
+        print("Cluster {}: {id}, dominant label = {dominant}, silhouette = {sil:.3f}".format(self.c_id,
+                                                                                             id=id_list,
+                                                                                             dominant=label,
+                                                                                             sil=silhouette))

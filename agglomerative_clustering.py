@@ -80,7 +80,7 @@ class AgglomerativeClustering:
             c.print_details(summary_dict[c.c_id])
         rand_index = self.compute_rand_index()
         silhouette = summary_dict[0]
-        print("Whole data silhouette = {:.3f}, RI = {:.3f}".format(silhouette, rand_index))
+        print("Whole data silhouette = {:.3f}, RI = {:.3f}".format(float(silhouette), rand_index))
 
     def compute_cluster_d(self, sample, cluster_to, is_sample_cluster):
         cluster_size = len(cluster_to.samples) - 1 if is_sample_cluster else len(cluster_to.samples)
