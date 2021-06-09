@@ -8,6 +8,7 @@ class AgglomerativeClustering:
         self.link = link
         self.clusters = [cluster.Cluster(s.s_id, [s]) for s in samples]
 
+    # returns silhouette of the current cluster
     def compute_silhoeutte(self):
         sil_dict = {}
         for c in self.clusters:
@@ -20,6 +21,8 @@ class AgglomerativeClustering:
                 sil_dict[samp.s_id] = sil_val
         return sil_dict
 
+    # returns dictionary that contains clusters as keys and cluster silhouette as key,
+    # for key - 0 the dictionary holds the silhouette of the whole data
     def compute_summary_silhoeutte(self):
         sil_dict = self.compute_silhoeutte()
         summary_dict = {}
@@ -34,6 +37,7 @@ class AgglomerativeClustering:
         summary_dict[0] = population_sum / population_size
         return summary_dict
 
+    # returns the rand_index of the data by iterating over the clusters and counting TF TP NF NP
     def compute_rand_index(self):
         all_clusters = self.clusters.copy()
         rand_index_dict = {}
@@ -58,6 +62,8 @@ class AgglomerativeClustering:
         tn = sum([v[1] for v in rand_index_dict.values()])
         return (tp + tn) / (tn + tp + fp + fn)
 
+    # a function the runs the agglomerative clustering algorithm, and prints the final results of the clustering,
+    # its silhouettes and rand index.
     def run(self, max_clusters):
         self.initialize_distances_dict()
         while len(self.clusters) > max_clusters:
@@ -77,11 +83,13 @@ class AgglomerativeClustering:
             cluster1.merge(temp_cluster)
         summary_dict = self.compute_summary_silhoeutte()
         for c in self.clusters:
-            c.print_details(summary_dict[c.c_id])
+            c.print_details(round(summary_dict[c.c_id], 3))
         rand_index = self.compute_rand_index()
         silhouette = summary_dict[0]
-        print("Whole data silhouette = {:.3f}, RI = {:.3f}".format(float(silhouette), rand_index))
+        print("Whole data silhouette = {:.3f}, RI = {:.3f}".format(round(float(silhouette), 3), rand_index))
 
+    # recieves a sample, a cluster, and a flag that on which the calculation is based, if the is_sample_cluster true
+    # the in value is return, otherwise, the out value is returned
     def compute_cluster_d(self, sample, cluster_to, is_sample_cluster):
         cluster_size = len(cluster_to.samples) - 1 if is_sample_cluster else len(cluster_to.samples)
         if cluster_size == 0:
@@ -92,6 +100,8 @@ class AgglomerativeClustering:
                 sum_of_distances = sum_of_distances + self.distances[(sample.s_id, other_sample.s_id)]
         return sum_of_distances / cluster_size
 
+    # creates the dictionary of distances between samples, keys are pair of samples (tuple) and the value is the
+    # distance between them
     def initialize_distances_dict(self):
         for this_cluster in self.clusters:
             for other_cluster in self.clusters:

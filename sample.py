@@ -6,6 +6,7 @@ class Sample:
         self.genes = genes
         self.label = label
 
+    # recieves another sample and returns euclidean distance to it
     def compute_euclidean_distance(self, other):
         distance_list = []
         for i in range(len(self.genes)):

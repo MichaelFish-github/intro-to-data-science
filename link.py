@@ -13,6 +13,7 @@ class SingleLink(Link):
     def __init__(self):
         pass
 
+    # receives cluster and computes its distance from self using single link method
     def compute(self, cluster, other):
         distances = AgglomerativeClustering.distances
         min_d = distances[(cluster.samples[0].s_id, other.samples[0].s_id)]
@@ -28,6 +29,7 @@ class CompleteLink(Link):
     def __init__(self):
         pass
 
+    # receives cluster and computes its distance from self using complete link method
     def compute(self, cluster, other):
         distances = AgglomerativeClustering.distances
         max_d = distances[(cluster.samples[0].s_id, other.samples[0].s_id)]

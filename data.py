@@ -11,6 +11,7 @@ class Data:
         df = pandas.read_csv(path)
         self.data = df.to_dict(orient="list")
 
+    # transforms the data into lists
     def create_samples(self):
         samples = []
         not_genes = ["samples", "type"]
